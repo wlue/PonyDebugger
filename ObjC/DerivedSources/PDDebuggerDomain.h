@@ -2,7 +2,7 @@
 //  PDDebuggerDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -13,9 +13,9 @@
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
+@class PDRuntimeRemoteObject;
 @class PDDebuggerLocation;
 @class PDDebuggerFunctionDetails;
-@class PDRuntimeRemoteObject;
 
 @protocol PDDebuggerCommandDelegate;
 
@@ -38,7 +38,8 @@
 // Param endColumn: Length of the last line of the script.
 // Param isContentScript: Determines whether this script is a user extension script.
 // Param sourceMapURL: URL of source map associated with script (if any).
-- (void)scriptParsedWithScriptId:(NSString *)scriptId url:(NSString *)url startLine:(NSNumber *)startLine startColumn:(NSNumber *)startColumn endLine:(NSNumber *)endLine endColumn:(NSNumber *)endColumn isContentScript:(NSNumber *)isContentScript sourceMapURL:(NSString *)sourceMapURL;
+// Param hasSourceURL: True, if this script has sourceURL.
+- (void)scriptParsedWithScriptId:(NSString *)scriptId url:(NSString *)url startLine:(NSNumber *)startLine startColumn:(NSNumber *)startColumn endLine:(NSNumber *)endLine endColumn:(NSNumber *)endColumn isContentScript:(NSNumber *)isContentScript sourceMapURL:(NSString *)sourceMapURL hasSourceURL:(NSNumber *)hasSourceURL;
 
 // Fired when virtual machine fails to parse the script.
 // Param url: URL of the script that failed to parse.
@@ -171,9 +172,10 @@
 // Param includeCommandLineAPI: Specifies whether command line API should be available to the evaluated expression, defaults to false.
 // Param doNotPauseOnExceptionsAndMuteConsole: Specifies whether evaluation should stop on exceptions and mute console. Overrides setPauseOnException state.
 // Param returnByValue: Whether the result is expected to be a JSON object that should be sent by value.
+// Param generatePreview: Whether preview should be generated for the result.
 // Callback Param result: Object wrapper for the evaluation result.
 // Callback Param wasThrown: True if the result was thrown during the evaluation.
-- (void)domain:(PDDebuggerDomain *)domain evaluateOnCallFrameWithCallFrameId:(NSString *)callFrameId expression:(NSString *)expression objectGroup:(NSString *)objectGroup includeCommandLineAPI:(NSNumber *)includeCommandLineAPI doNotPauseOnExceptionsAndMuteConsole:(NSNumber *)doNotPauseOnExceptionsAndMuteConsole returnByValue:(NSNumber *)returnByValue callback:(void (^)(PDRuntimeRemoteObject *result, NSNumber *wasThrown, id error))callback;
+- (void)domain:(PDDebuggerDomain *)domain evaluateOnCallFrameWithCallFrameId:(NSString *)callFrameId expression:(NSString *)expression objectGroup:(NSString *)objectGroup includeCommandLineAPI:(NSNumber *)includeCommandLineAPI doNotPauseOnExceptionsAndMuteConsole:(NSNumber *)doNotPauseOnExceptionsAndMuteConsole returnByValue:(NSNumber *)returnByValue generatePreview:(NSNumber *)generatePreview callback:(void (^)(PDRuntimeRemoteObject *result, NSNumber *wasThrown, id error))callback;
 
 // Compiles expression.
 // Param expression: Expression to compile.

@@ -2,7 +2,7 @@
 //  PDDOMDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -205,8 +205,8 @@
 
             responseCallback(params, error);
         }];
-    } else if ([methodName isEqualToString:@"requestChildNodes"] && [self.delegate respondsToSelector:@selector(domain:requestChildNodesWithNodeId:callback:)]) {
-        [self.delegate domain:self requestChildNodesWithNodeId:[params objectForKey:@"nodeId"] callback:^(id error) {
+    } else if ([methodName isEqualToString:@"requestChildNodes"] && [self.delegate respondsToSelector:@selector(domain:requestChildNodesWithNodeId:depth:callback:)]) {
+        [self.delegate domain:self requestChildNodesWithNodeId:[params objectForKey:@"nodeId"] depth:[params objectForKey:@"depth"] callback:^(id error) {
             responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"querySelector"] && [self.delegate respondsToSelector:@selector(domain:querySelectorWithNodeId:selector:callback:)]) {
@@ -328,8 +328,8 @@
         [self.delegate domain:self highlightRectWithX:[params objectForKey:@"x"] y:[params objectForKey:@"y"] width:[params objectForKey:@"width"] height:[params objectForKey:@"height"] color:[params objectForKey:@"color"] outlineColor:[params objectForKey:@"outlineColor"] callback:^(id error) {
             responseCallback(nil, error);
         }];
-    } else if ([methodName isEqualToString:@"highlightNode"] && [self.delegate respondsToSelector:@selector(domain:highlightNodeWithNodeId:highlightConfig:callback:)]) {
-        [self.delegate domain:self highlightNodeWithNodeId:[params objectForKey:@"nodeId"] highlightConfig:[params objectForKey:@"highlightConfig"] callback:^(id error) {
+    } else if ([methodName isEqualToString:@"highlightNode"] && [self.delegate respondsToSelector:@selector(domain:highlightNodeWithHighlightConfig:nodeId:objectId:callback:)]) {
+        [self.delegate domain:self highlightNodeWithHighlightConfig:[params objectForKey:@"highlightConfig"] nodeId:[params objectForKey:@"nodeId"] objectId:[params objectForKey:@"objectId"] callback:^(id error) {
             responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"hideHighlight"] && [self.delegate respondsToSelector:@selector(domain:hideHighlightWithCallback:)]) {
@@ -390,6 +390,10 @@
         }];
     } else if ([methodName isEqualToString:@"markUndoableState"] && [self.delegate respondsToSelector:@selector(domain:markUndoableStateWithCallback:)]) {
         [self.delegate domain:self markUndoableStateWithCallback:^(id error) {
+            responseCallback(nil, error);
+        }];
+    } else if ([methodName isEqualToString:@"focus"] && [self.delegate respondsToSelector:@selector(domain:focusWithNodeId:callback:)]) {
+        [self.delegate domain:self focusWithNodeId:[params objectForKey:@"nodeId"] callback:^(id error) {
             responseCallback(nil, error);
         }];
     } else {

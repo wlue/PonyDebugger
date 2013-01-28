@@ -2,7 +2,7 @@
 //  PDPageDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -13,8 +13,8 @@
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
-@class PDPageFrame;
 @class PDPageFrameResourceTree;
+@class PDPageFrame;
 
 @protocol PDPageCommandDelegate;
 
@@ -35,6 +35,23 @@
 // Param frameId: Id of the frame that has been detached.
 - (void)frameDetachedWithFrameId:(NSString *)frameId;
 
+// Fired when frame has started loading.
+// Param frameId: Id of the frame that has started loading.
+- (void)frameStartedLoadingWithFrameId:(NSString *)frameId;
+
+// Fired when frame has stopped loading.
+// Param frameId: Id of the frame that has stopped loading.
+- (void)frameStoppedLoadingWithFrameId:(NSString *)frameId;
+
+// Fired when frame schedules a potential navigation.
+// Param frameId: Id of the frame that has scheduled a navigation.
+// Param delay: Delay (in seconds) until the navigation is scheduled to begin. The navigation is not guaranteed to start.
+- (void)frameScheduledNavigationWithFrameId:(NSString *)frameId delay:(NSNumber *)delay;
+
+// Fired when frame no longer has a scheduled navigation.
+// Param frameId: Id of the frame that has cleared its scheduled navigation.
+- (void)frameClearedScheduledNavigationWithFrameId:(NSString *)frameId;
+
 @end
 
 @protocol PDPageCommandDelegate <PDCommandDelegate>
@@ -52,7 +69,8 @@
 // Reloads given page optionally ignoring the cache.
 // Param ignoreCache: If true, browser cache is ignored (as if the user pressed Shift+refresh).
 // Param scriptToEvaluateOnLoad: If set, the script will be injected into all frames of the inspected page after reload.
-- (void)domain:(PDPageDomain *)domain reloadWithIgnoreCache:(NSNumber *)ignoreCache scriptToEvaluateOnLoad:(NSString *)scriptToEvaluateOnLoad callback:(void (^)(id error))callback;
+// Param scriptPreprocessor: Script body that should evaluate to function that will preprocess all the scripts before their compilation.
+- (void)domain:(PDPageDomain *)domain reloadWithIgnoreCache:(NSNumber *)ignoreCache scriptToEvaluateOnLoad:(NSString *)scriptToEvaluateOnLoad scriptPreprocessor:(NSString *)scriptPreprocessor callback:(void (^)(id error))callback;
 
 // Navigates current page to the given URL.
 // Param url: URL to navigate the page to.
@@ -63,10 +81,10 @@
 // Callback Param cookiesString: document.cookie string representation of the cookies.
 - (void)domain:(PDPageDomain *)domain getCookiesWithCallback:(void (^)(NSArray *cookies, NSString *cookiesString, id error))callback;
 
-// Deletes browser cookie with given name for the given domain.
+// Deletes browser cookie with given name, domain and path.
 // Param cookieName: Name of the cookie to remove.
-// Param domain: Domain of the cookie to remove.
-- (void)domain:(PDPageDomain *)domain deleteCookieWithCookieName:(NSString *)cookieName domain:(NSString *)domain callback:(void (^)(id error))callback;
+// Param url: URL to match cooke domain and path.
+- (void)domain:(PDPageDomain *)domain deleteCookieWithCookieName:(NSString *)cookieName url:(NSString *)url callback:(void (^)(id error))callback;
 
 // Returns present frame / resource tree structure.
 // Callback Param frameTree: Present frame / resource tree structure.
@@ -115,6 +133,22 @@
 // Param result: True for showing paint rectangles
 - (void)domain:(PDPageDomain *)domain setShowPaintRectsWithResult:(NSNumber *)result callback:(void (^)(id error))callback;
 
+// Tells if backend supports a FPS counter display
+// Callback Param show: True if the FPS count can be shown
+- (void)domain:(PDPageDomain *)domain canShowFPSCounterWithCallback:(void (^)(NSNumber *show, id error))callback;
+
+// Requests that backend shows the FPS counter
+// Param show: True for showing the FPS counter
+- (void)domain:(PDPageDomain *)domain setShowFPSCounterWithShow:(NSNumber *)show callback:(void (^)(id error))callback;
+
+// Tells if backend supports continuous painting
+// Callback Param value: True if continuous painting is available
+- (void)domain:(PDPageDomain *)domain canContinuouslyPaintWithCallback:(void (^)(NSNumber *value, id error))callback;
+
+// Requests that backend enables continuous painting
+// Param enabled: True for enabling cointinuous painting
+- (void)domain:(PDPageDomain *)domain setContinuousPaintingEnabledWithEnabled:(NSNumber *)enabled callback:(void (^)(id error))callback;
+
 // Determines if scripts can be executed in the page.
 // Callback Param result: Script execution status: "allowed" if scripts can be executed, "disabled" if script execution has been disabled through page settings, "forbidden" if script execution for the given page is not possible for other reasons.
 - (void)domain:(PDPageDomain *)domain getScriptExecutionStatusWithCallback:(void (^)(NSString *result, id error))callback;
@@ -152,6 +186,22 @@
 // Toggles mouse event-based touch event emulation.
 // Param enabled: Whether the touch event emulation should be enabled.
 - (void)domain:(PDPageDomain *)domain setTouchEmulationEnabledWithEnabled:(NSNumber *)enabled callback:(void (^)(id error))callback;
+
+// Emulates the given media for CSS media queries.
+// Param media: Media type to emulate. Empty string disables the override.
+- (void)domain:(PDPageDomain *)domain setEmulatedMediaWithMedia:(NSString *)media callback:(void (^)(id error))callback;
+
+// Indicates the visibility of compositing borders.
+// Callback Param result: If true, compositing borders are visible.
+- (void)domain:(PDPageDomain *)domain getCompositingBordersVisibleWithCallback:(void (^)(NSNumber *result, id error))callback;
+
+// Controls the visibility of compositing borders.
+// Param visible: True for showing compositing borders.
+- (void)domain:(PDPageDomain *)domain setCompositingBordersVisibleWithVisible:(NSNumber *)visible callback:(void (^)(id error))callback;
+
+// Capture page screenshot.
+// Callback Param data: Base64-encoded image data (PNG).
+- (void)domain:(PDPageDomain *)domain captureScreenshotWithCallback:(void (^)(NSString *data, id error))callback;
 
 @end
 

@@ -2,7 +2,7 @@
 //  PDNetworkTypes.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -126,7 +126,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"requestKey3",@"requestKey3",
                     @"headers",@"headers",
                     nil];
     });
@@ -134,7 +133,6 @@
     return mappings;
 }
 
-@dynamic requestKey3;
 @dynamic headers;
  
 @end
@@ -150,7 +148,6 @@
                     @"status",@"status",
                     @"statusText",@"statusText",
                     @"headers",@"headers",
-                    @"challengeResponse",@"challengeResponse",
                     nil];
     });
 
@@ -160,7 +157,6 @@
 @dynamic status;
 @dynamic statusText;
 @dynamic headers;
-@dynamic challengeResponse;
  
 @end
 

@@ -2,7 +2,7 @@
 //  PDPageDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -75,6 +75,57 @@
     [self.debuggingServer sendEventWithName:@"Page.frameDetached" parameters:params];
 }
 
+// Fired when frame has started loading.
+- (void)frameStartedLoadingWithFrameId:(NSString *)frameId;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+    if (frameId != nil) {
+        [params setObject:[frameId PD_JSONObject] forKey:@"frameId"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"Page.frameStartedLoading" parameters:params];
+}
+
+// Fired when frame has stopped loading.
+- (void)frameStoppedLoadingWithFrameId:(NSString *)frameId;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+    if (frameId != nil) {
+        [params setObject:[frameId PD_JSONObject] forKey:@"frameId"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"Page.frameStoppedLoading" parameters:params];
+}
+
+// Fired when frame schedules a potential navigation.
+- (void)frameScheduledNavigationWithFrameId:(NSString *)frameId delay:(NSNumber *)delay;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
+
+    if (frameId != nil) {
+        [params setObject:[frameId PD_JSONObject] forKey:@"frameId"];
+    }
+    if (delay != nil) {
+        [params setObject:[delay PD_JSONObject] forKey:@"delay"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"Page.frameScheduledNavigation" parameters:params];
+}
+
+// Fired when frame no longer has a scheduled navigation.
+- (void)frameClearedScheduledNavigationWithFrameId:(NSString *)frameId;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+    if (frameId != nil) {
+        [params setObject:[frameId PD_JSONObject] forKey:@"frameId"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"Page.frameClearedScheduledNavigation" parameters:params];
+}
+
 
 
 - (void)handleMethodWithName:(NSString *)methodName parameters:(NSDictionary *)params responseCallback:(PDResponseCallback)responseCallback;
@@ -101,8 +152,8 @@
         [self.delegate domain:self removeScriptToEvaluateOnLoadWithIdentifier:[params objectForKey:@"identifier"] callback:^(id error) {
             responseCallback(nil, error);
         }];
-    } else if ([methodName isEqualToString:@"reload"] && [self.delegate respondsToSelector:@selector(domain:reloadWithIgnoreCache:scriptToEvaluateOnLoad:callback:)]) {
-        [self.delegate domain:self reloadWithIgnoreCache:[params objectForKey:@"ignoreCache"] scriptToEvaluateOnLoad:[params objectForKey:@"scriptToEvaluateOnLoad"] callback:^(id error) {
+    } else if ([methodName isEqualToString:@"reload"] && [self.delegate respondsToSelector:@selector(domain:reloadWithIgnoreCache:scriptToEvaluateOnLoad:scriptPreprocessor:callback:)]) {
+        [self.delegate domain:self reloadWithIgnoreCache:[params objectForKey:@"ignoreCache"] scriptToEvaluateOnLoad:[params objectForKey:@"scriptToEvaluateOnLoad"] scriptPreprocessor:[params objectForKey:@"scriptPreprocessor"] callback:^(id error) {
             responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"navigate"] && [self.delegate respondsToSelector:@selector(domain:navigateWithUrl:callback:)]) {
@@ -122,8 +173,8 @@
 
             responseCallback(params, error);
         }];
-    } else if ([methodName isEqualToString:@"deleteCookie"] && [self.delegate respondsToSelector:@selector(domain:deleteCookieWithCookieName:domain:callback:)]) {
-        [self.delegate domain:self deleteCookieWithCookieName:[params objectForKey:@"cookieName"] domain:[params objectForKey:@"domain"] callback:^(id error) {
+    } else if ([methodName isEqualToString:@"deleteCookie"] && [self.delegate respondsToSelector:@selector(domain:deleteCookieWithCookieName:url:callback:)]) {
+        [self.delegate domain:self deleteCookieWithCookieName:[params objectForKey:@"cookieName"] url:[params objectForKey:@"url"] callback:^(id error) {
             responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"getResourceTree"] && [self.delegate respondsToSelector:@selector(domain:getResourceTreeWithCallback:)]) {
@@ -191,6 +242,34 @@
         [self.delegate domain:self setShowPaintRectsWithResult:[params objectForKey:@"result"] callback:^(id error) {
             responseCallback(nil, error);
         }];
+    } else if ([methodName isEqualToString:@"canShowFPSCounter"] && [self.delegate respondsToSelector:@selector(domain:canShowFPSCounterWithCallback:)]) {
+        [self.delegate domain:self canShowFPSCounterWithCallback:^(NSNumber *show, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+            if (show != nil) {
+                [params setObject:show forKey:@"show"];
+            }
+
+            responseCallback(params, error);
+        }];
+    } else if ([methodName isEqualToString:@"setShowFPSCounter"] && [self.delegate respondsToSelector:@selector(domain:setShowFPSCounterWithShow:callback:)]) {
+        [self.delegate domain:self setShowFPSCounterWithShow:[params objectForKey:@"show"] callback:^(id error) {
+            responseCallback(nil, error);
+        }];
+    } else if ([methodName isEqualToString:@"canContinuouslyPaint"] && [self.delegate respondsToSelector:@selector(domain:canContinuouslyPaintWithCallback:)]) {
+        [self.delegate domain:self canContinuouslyPaintWithCallback:^(NSNumber *value, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+            if (value != nil) {
+                [params setObject:value forKey:@"value"];
+            }
+
+            responseCallback(params, error);
+        }];
+    } else if ([methodName isEqualToString:@"setContinuousPaintingEnabled"] && [self.delegate respondsToSelector:@selector(domain:setContinuousPaintingEnabledWithEnabled:callback:)]) {
+        [self.delegate domain:self setContinuousPaintingEnabledWithEnabled:[params objectForKey:@"enabled"] callback:^(id error) {
+            responseCallback(nil, error);
+        }];
     } else if ([methodName isEqualToString:@"getScriptExecutionStatus"] && [self.delegate respondsToSelector:@selector(domain:getScriptExecutionStatusWithCallback:)]) {
         [self.delegate domain:self getScriptExecutionStatusWithCallback:^(NSString *result, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -244,6 +323,34 @@
     } else if ([methodName isEqualToString:@"setTouchEmulationEnabled"] && [self.delegate respondsToSelector:@selector(domain:setTouchEmulationEnabledWithEnabled:callback:)]) {
         [self.delegate domain:self setTouchEmulationEnabledWithEnabled:[params objectForKey:@"enabled"] callback:^(id error) {
             responseCallback(nil, error);
+        }];
+    } else if ([methodName isEqualToString:@"setEmulatedMedia"] && [self.delegate respondsToSelector:@selector(domain:setEmulatedMediaWithMedia:callback:)]) {
+        [self.delegate domain:self setEmulatedMediaWithMedia:[params objectForKey:@"media"] callback:^(id error) {
+            responseCallback(nil, error);
+        }];
+    } else if ([methodName isEqualToString:@"getCompositingBordersVisible"] && [self.delegate respondsToSelector:@selector(domain:getCompositingBordersVisibleWithCallback:)]) {
+        [self.delegate domain:self getCompositingBordersVisibleWithCallback:^(NSNumber *result, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+            if (result != nil) {
+                [params setObject:result forKey:@"result"];
+            }
+
+            responseCallback(params, error);
+        }];
+    } else if ([methodName isEqualToString:@"setCompositingBordersVisible"] && [self.delegate respondsToSelector:@selector(domain:setCompositingBordersVisibleWithVisible:callback:)]) {
+        [self.delegate domain:self setCompositingBordersVisibleWithVisible:[params objectForKey:@"visible"] callback:^(id error) {
+            responseCallback(nil, error);
+        }];
+    } else if ([methodName isEqualToString:@"captureScreenshot"] && [self.delegate respondsToSelector:@selector(domain:captureScreenshotWithCallback:)]) {
+        [self.delegate domain:self captureScreenshotWithCallback:^(NSString *data, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+            if (data != nil) {
+                [params setObject:data forKey:@"data"];
+            }
+
+            responseCallback(params, error);
         }];
     } else {
         [super handleMethodWithName:methodName parameters:params responseCallback:responseCallback];

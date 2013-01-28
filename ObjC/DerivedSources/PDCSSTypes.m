@@ -2,7 +2,7 @@
 //  PDCSSTypes.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -53,7 +53,7 @@
  
 @end
 
-@implementation PDCSSPseudoIdRules
+@implementation PDCSSPseudoIdMatches
 
 + (NSDictionary *)keysToEncode;
 {
@@ -62,7 +62,7 @@
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
                     @"pseudoId",@"pseudoId",
-                    @"rules",@"rules",
+                    @"matches",@"matches",
                     nil];
     });
 
@@ -70,7 +70,7 @@
 }
 
 @dynamic pseudoId;
-@dynamic rules;
+@dynamic matches;
  
 @end
 
@@ -92,6 +92,50 @@
 
 @dynamic inlineStyle;
 @dynamic matchedCSSRules;
+ 
+@end
+
+@implementation PDCSSRuleMatch
+
++ (NSDictionary *)keysToEncode;
+{
+    static NSDictionary *mappings = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                    @"rule",@"rule",
+                    @"matchingSelectors",@"matchingSelectors",
+                    nil];
+    });
+
+    return mappings;
+}
+
+@dynamic rule;
+@dynamic matchingSelectors;
+ 
+@end
+
+@implementation PDCSSSelectorList
+
++ (NSDictionary *)keysToEncode;
+{
+    static NSDictionary *mappings = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                    @"selectors",@"selectors",
+                    @"text",@"text",
+                    @"range",@"range",
+                    nil];
+    });
+
+    return mappings;
+}
+
+@dynamic selectors;
+@dynamic text;
+@dynamic range;
  
 @end
 
@@ -177,12 +221,11 @@
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
                     @"ruleId",@"ruleId",
-                    @"selectorText",@"selectorText",
+                    @"selectorList",@"selectorList",
                     @"sourceURL",@"sourceURL",
                     @"sourceLine",@"sourceLine",
                     @"origin",@"origin",
                     @"style",@"style",
-                    @"selectorRange",@"selectorRange",
                     @"media",@"media",
                     nil];
     });
@@ -191,12 +234,11 @@
 }
 
 @dynamic ruleId;
-@dynamic selectorText;
+@dynamic selectorList;
 @dynamic sourceURL;
 @dynamic sourceLine;
 @dynamic origin;
 @dynamic style;
-@dynamic selectorRange;
 @dynamic media;
  
 @end

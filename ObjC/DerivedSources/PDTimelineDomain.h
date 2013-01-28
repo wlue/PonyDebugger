@@ -2,7 +2,7 @@
 //  PDTimelineDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -47,6 +47,10 @@
 // Tells whether timeline agent supports frame instrumentation.
 // Callback Param result: True if timeline supports frame instrumentation.
 - (void)domain:(PDTimelineDomain *)domain supportsFrameInstrumentationWithCallback:(void (^)(NSNumber *result, id error))callback;
+
+// Tells whether timeline agent supports main thread CPU utilization instrumentation.
+// Callback Param result: True if timeline supports main thread CPU utilization instrumentation.
+- (void)domain:(PDTimelineDomain *)domain canMonitorMainThreadWithCallback:(void (^)(NSNumber *result, id error))callback;
 
 @end
 

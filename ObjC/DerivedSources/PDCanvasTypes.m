@@ -1,5 +1,5 @@
 //
-//  PDPageTypes.m
+//  PDCanvasTypes.m
 //  PonyDebuggerDerivedSources
 //
 //  Generated on 1/28/13
@@ -9,9 +9,9 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import "PDPageTypes.h"
+#import "PDCanvasTypes.h"
 
-@implementation PDPageFrame
+@implementation PDCanvasResourceInfo
 
 + (NSDictionary *)keysToEncode;
 {
@@ -20,12 +20,7 @@
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
                     @"id",@"identifier",
-                    @"parentId",@"parentId",
-                    @"loaderId",@"loaderId",
-                    @"name",@"name",
-                    @"url",@"url",
-                    @"securityOrigin",@"securityOrigin",
-                    @"mimeType",@"mimeType",
+                    @"description",@"objectDescription",
                     nil];
     });
 
@@ -33,16 +28,11 @@
 }
 
 @dynamic identifier;
-@dynamic parentId;
-@dynamic loaderId;
-@dynamic name;
-@dynamic url;
-@dynamic securityOrigin;
-@dynamic mimeType;
+@dynamic objectDescription;
  
 @end
 
-@implementation PDPageFrameResourceTree
+@implementation PDCanvasResourceState
 
 + (NSDictionary *)keysToEncode;
 {
@@ -50,22 +40,22 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"frame",@"frame",
-                    @"childFrames",@"childFrames",
-                    @"resources",@"resources",
+                    @"id",@"identifier",
+                    @"traceLogId",@"traceLogId",
+                    @"imageURL",@"imageURL",
                     nil];
     });
 
     return mappings;
 }
 
-@dynamic frame;
-@dynamic childFrames;
-@dynamic resources;
+@dynamic identifier;
+@dynamic traceLogId;
+@dynamic imageURL;
  
 @end
 
-@implementation PDPageSearchMatch
+@implementation PDCanvasCallArgument
 
 + (NSDictionary *)keysToEncode;
 {
@@ -73,20 +63,18 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"lineNumber",@"lineNumber",
-                    @"lineContent",@"lineContent",
+                    @"description",@"objectDescription",
                     nil];
     });
 
     return mappings;
 }
 
-@dynamic lineNumber;
-@dynamic lineContent;
+@dynamic objectDescription;
  
 @end
 
-@implementation PDPageSearchResult
+@implementation PDCanvasCall
 
 + (NSDictionary *)keysToEncode;
 {
@@ -94,53 +82,59 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"url",@"url",
-                    @"frameId",@"frameId",
-                    @"matchesCount",@"matchesCount",
-                    nil];
-    });
-
-    return mappings;
-}
-
-@dynamic url;
-@dynamic frameId;
-@dynamic matchesCount;
- 
-@end
-
-@implementation PDPageCookie
-
-+ (NSDictionary *)keysToEncode;
-{
-    static NSDictionary *mappings = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"name",@"name",
+                    @"contextId",@"contextId",
+                    @"functionName",@"functionName",
+                    @"arguments",@"arguments",
+                    @"result",@"result",
+                    @"isDrawingCall",@"isDrawingCall",
+                    @"property",@"property",
                     @"value",@"value",
-                    @"domain",@"domain",
-                    @"path",@"path",
-                    @"expires",@"expires",
-                    @"size",@"size",
-                    @"httpOnly",@"httpOnly",
-                    @"secure",@"secure",
-                    @"session",@"session",
+                    @"sourceURL",@"sourceURL",
+                    @"lineNumber",@"lineNumber",
+                    @"columnNumber",@"columnNumber",
                     nil];
     });
 
     return mappings;
 }
 
-@dynamic name;
+@dynamic contextId;
+@dynamic functionName;
+@dynamic arguments;
+@dynamic result;
+@dynamic isDrawingCall;
+@dynamic property;
 @dynamic value;
-@dynamic domain;
-@dynamic path;
-@dynamic expires;
-@dynamic size;
-@dynamic httpOnly;
-@dynamic secure;
-@dynamic session;
+@dynamic sourceURL;
+@dynamic lineNumber;
+@dynamic columnNumber;
+ 
+@end
+
+@implementation PDCanvasTraceLog
+
++ (NSDictionary *)keysToEncode;
+{
+    static NSDictionary *mappings = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                    @"id",@"identifier",
+                    @"calls",@"calls",
+                    @"startOffset",@"startOffset",
+                    @"alive",@"alive",
+                    @"totalAvailableCalls",@"totalAvailableCalls",
+                    nil];
+    });
+
+    return mappings;
+}
+
+@dynamic identifier;
+@dynamic calls;
+@dynamic startOffset;
+@dynamic alive;
+@dynamic totalAvailableCalls;
  
 @end
 

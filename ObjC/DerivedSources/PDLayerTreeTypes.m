@@ -1,5 +1,5 @@
 //
-//  PDProfilerTypes.m
+//  PDLayerTreeTypes.m
 //  PonyDebuggerDerivedSources
 //
 //  Generated on 1/28/13
@@ -9,9 +9,9 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import "PDProfilerTypes.h"
+#import "PDLayerTreeTypes.h"
 
-@implementation PDProfilerProfileHeader
+@implementation PDLayerTreeIntRect
 
 + (NSDictionary *)keysToEncode;
 {
@@ -19,24 +19,24 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"typeId",@"typeId",
-                    @"title",@"title",
-                    @"uid",@"uid",
-                    @"maxJSObjectId",@"maxJSObjectId",
+                    @"x",@"x",
+                    @"y",@"y",
+                    @"width",@"width",
+                    @"height",@"height",
                     nil];
     });
 
     return mappings;
 }
 
-@dynamic typeId;
-@dynamic title;
-@dynamic uid;
-@dynamic maxJSObjectId;
+@dynamic x;
+@dynamic y;
+@dynamic width;
+@dynamic height;
  
 @end
 
-@implementation PDProfilerCPUProfile
+@implementation PDLayerTreeLayer
 
 + (NSDictionary *)keysToEncode;
 {
@@ -44,18 +44,26 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    @"head",@"head",
-                    @"bottomUpHead",@"bottomUpHead",
-                    @"idleTime",@"idleTime",
+                    @"layerId",@"layerId",
+                    @"bounds",@"bounds",
+                    @"isComposited",@"isComposited",
+                    @"paintCount",@"paintCount",
+                    @"memory",@"memory",
+                    @"compositedBounds",@"compositedBounds",
+                    @"childLayers",@"childLayers",
                     nil];
     });
 
     return mappings;
 }
 
-@dynamic head;
-@dynamic bottomUpHead;
-@dynamic idleTime;
+@dynamic layerId;
+@dynamic bounds;
+@dynamic isComposited;
+@dynamic paintCount;
+@dynamic memory;
+@dynamic compositedBounds;
+@dynamic childLayers;
  
 @end
 

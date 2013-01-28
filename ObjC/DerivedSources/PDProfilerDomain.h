@@ -2,7 +2,7 @@
 //  PDProfilerDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -14,7 +14,7 @@
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
 @class PDRuntimeRemoteObject;
-@class PDProfilerProfile;
+@class PDProfilerCPUProfile;
 @class PDProfilerProfileHeader;
 
 @protocol PDProfilerCommandDelegate;
@@ -43,7 +43,8 @@
 - (void)domain:(PDProfilerDomain *)domain startWithCallback:(void (^)(id error))callback;
 - (void)domain:(PDProfilerDomain *)domain stopWithCallback:(void (^)(id error))callback;
 - (void)domain:(PDProfilerDomain *)domain getProfileHeadersWithCallback:(void (^)(NSArray *headers, id error))callback;
-- (void)domain:(PDProfilerDomain *)domain getProfileWithType:(NSString *)type uid:(NSNumber *)uid callback:(void (^)(PDProfilerProfile *profile, id error))callback;
+- (void)domain:(PDProfilerDomain *)domain getCPUProfileWithUid:(NSNumber *)uid callback:(void (^)(PDProfilerCPUProfile *profile, id error))callback;
+- (void)domain:(PDProfilerDomain *)domain getHeapSnapshotWithUid:(NSNumber *)uid callback:(void (^)(id error))callback;
 - (void)domain:(PDProfilerDomain *)domain removeProfileWithType:(NSString *)type uid:(NSNumber *)uid callback:(void (^)(id error))callback;
 - (void)domain:(PDProfilerDomain *)domain clearProfilesWithCallback:(void (^)(id error))callback;
 - (void)domain:(PDProfilerDomain *)domain takeHeapSnapshotWithCallback:(void (^)(id error))callback;

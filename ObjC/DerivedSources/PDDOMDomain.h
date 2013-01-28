@@ -2,7 +2,7 @@
 //  PDDOMDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -13,10 +13,10 @@
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
-@class PDRuntimeRemoteObject;
-@class PDDOMHighlightConfig;
 @class PDDOMRGBA;
 @class PDDOMNode;
+@class PDRuntimeRemoteObject;
+@class PDDOMHighlightConfig;
 
 @protocol PDDOMCommandDelegate;
 
@@ -90,9 +90,10 @@
 // Callback Param root: Resulting node.
 - (void)domain:(PDDOMDomain *)domain getDocumentWithCallback:(void (^)(PDDOMNode *root, id error))callback;
 
-// Requests that children of the node with given id are returned to the caller in form of <code>setChildNodes</code> events.
+// Requests that children of the node with given id are returned to the caller in form of <code>setChildNodes</code> events where not only immediate children are retrieved, but all children down to the specified depth.
 // Param nodeId: Id of the node to get children for.
-- (void)domain:(PDDOMDomain *)domain requestChildNodesWithNodeId:(NSNumber *)nodeId callback:(void (^)(id error))callback;
+// Param depth: The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the entire subtree or provide an integer larger than 0.
+- (void)domain:(PDDOMDomain *)domain requestChildNodesWithNodeId:(NSNumber *)nodeId depth:(NSNumber *)depth callback:(void (^)(id error))callback;
 
 // Executes <code>querySelector</code> on a given node.
 // Param nodeId: Id of the node to query upon.
@@ -189,10 +190,11 @@
 // Param outlineColor: The highlight outline color (default: transparent).
 - (void)domain:(PDDOMDomain *)domain highlightRectWithX:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height color:(PDDOMRGBA *)color outlineColor:(PDDOMRGBA *)outlineColor callback:(void (^)(id error))callback;
 
-// Highlights DOM node with given id.
-// Param nodeId: Identifier of the node to highlight.
+// Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or objectId must be specified.
 // Param highlightConfig: A descriptor for the highlight appearance.
-- (void)domain:(PDDOMDomain *)domain highlightNodeWithNodeId:(NSNumber *)nodeId highlightConfig:(PDDOMHighlightConfig *)highlightConfig callback:(void (^)(id error))callback;
+// Param nodeId: Identifier of the node to highlight.
+// Param objectId: JavaScript object id of the node to be highlighted.
+- (void)domain:(PDDOMDomain *)domain highlightNodeWithHighlightConfig:(PDDOMHighlightConfig *)highlightConfig nodeId:(NSNumber *)nodeId objectId:(NSString *)objectId callback:(void (^)(id error))callback;
 
 // Hides DOM node highlight.
 - (void)domain:(PDDOMDomain *)domain hideHighlightWithCallback:(void (^)(id error))callback;
@@ -234,6 +236,10 @@
 
 // Marks last undoable state.
 - (void)domain:(PDDOMDomain *)domain markUndoableStateWithCallback:(void (^)(id error))callback;
+
+// Focuses the given element.
+// Param nodeId: Id of the node to focus.
+- (void)domain:(PDDOMDomain *)domain focusWithNodeId:(NSNumber *)nodeId callback:(void (^)(id error))callback;
 
 @end
 

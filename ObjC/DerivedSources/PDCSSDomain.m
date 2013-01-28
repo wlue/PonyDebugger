@@ -2,7 +2,7 @@
 //  PDCSSDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -50,13 +50,10 @@
 }
 
 // Fires when a Named Flow is created.
-- (void)namedFlowCreatedWithDocumentNodeId:(NSNumber *)documentNodeId namedFlow:(NSString *)namedFlow;
+- (void)namedFlowCreatedWithNamedFlow:(PDCSSNamedFlow *)namedFlow;
 {
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
-    if (documentNodeId != nil) {
-        [params setObject:[documentNodeId PD_JSONObject] forKey:@"documentNodeId"];
-    }
     if (namedFlow != nil) {
         [params setObject:[namedFlow PD_JSONObject] forKey:@"namedFlow"];
     }
@@ -65,18 +62,30 @@
 }
 
 // Fires when a Named Flow is removed: has no associated content nodes and regions.
-- (void)namedFlowRemovedWithDocumentNodeId:(NSNumber *)documentNodeId namedFlow:(NSString *)namedFlow;
+- (void)namedFlowRemovedWithDocumentNodeId:(NSNumber *)documentNodeId flowName:(NSString *)flowName;
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
 
     if (documentNodeId != nil) {
         [params setObject:[documentNodeId PD_JSONObject] forKey:@"documentNodeId"];
     }
+    if (flowName != nil) {
+        [params setObject:[flowName PD_JSONObject] forKey:@"flowName"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"CSS.namedFlowRemoved" parameters:params];
+}
+
+// Fires when a Named Flow's layout may have changed.
+- (void)regionLayoutUpdatedWithNamedFlow:(PDCSSNamedFlow *)namedFlow;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
     if (namedFlow != nil) {
         [params setObject:[namedFlow PD_JSONObject] forKey:@"namedFlow"];
     }
     
-    [self.debuggingServer sendEventWithName:@"CSS.namedFlowRemoved" parameters:params];
+    [self.debuggingServer sendEventWithName:@"CSS.regionLayoutUpdated" parameters:params];
 }
 
 
@@ -238,16 +247,6 @@
 
             if (namedFlows != nil) {
                 [params setObject:namedFlows forKey:@"namedFlows"];
-            }
-
-            responseCallback(params, error);
-        }];
-    } else if ([methodName isEqualToString:@"getFlowByName"] && [self.delegate respondsToSelector:@selector(domain:getFlowByNameWithDocumentNodeId:name:callback:)]) {
-        [self.delegate domain:self getFlowByNameWithDocumentNodeId:[params objectForKey:@"documentNodeId"] name:[params objectForKey:@"name"] callback:^(PDCSSNamedFlow *namedFlow, id error) {
-            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
-
-            if (namedFlow != nil) {
-                [params setObject:namedFlow forKey:@"namedFlow"];
             }
 
             responseCallback(params, error);

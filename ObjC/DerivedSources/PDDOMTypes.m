@@ -2,7 +2,7 @@
 //  PDDOMTypes.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -28,14 +28,17 @@
                     @"children",@"children",
                     @"attributes",@"attributes",
                     @"documentURL",@"documentURL",
+                    @"baseURL",@"baseURL",
                     @"publicId",@"publicId",
                     @"systemId",@"systemId",
                     @"internalSubset",@"internalSubset",
                     @"xmlVersion",@"xmlVersion",
                     @"name",@"name",
                     @"value",@"value",
+                    @"frameId",@"frameId",
                     @"contentDocument",@"contentDocument",
                     @"shadowRoots",@"shadowRoots",
+                    @"templateContent",@"templateContent",
                     nil];
     });
 
@@ -51,14 +54,17 @@
 @dynamic children;
 @dynamic attributes;
 @dynamic documentURL;
+@dynamic baseURL;
 @dynamic publicId;
 @dynamic systemId;
 @dynamic internalSubset;
 @dynamic xmlVersion;
 @dynamic name;
 @dynamic value;
+@dynamic frameId;
 @dynamic contentDocument;
 @dynamic shadowRoots;
+@dynamic templateContent;
  
 @end
 
@@ -76,6 +82,7 @@
                     @"nodeId",@"nodeId",
                     @"handlerBody",@"handlerBody",
                     @"location",@"location",
+                    @"sourceName",@"sourceName",
                     nil];
     });
 
@@ -88,6 +95,7 @@
 @dynamic nodeId;
 @dynamic handlerBody;
 @dynamic location;
+@dynamic sourceName;
  
 @end
 

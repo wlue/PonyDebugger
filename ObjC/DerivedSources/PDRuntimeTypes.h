@@ -2,7 +2,7 @@
 //  PDRuntimeTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -119,6 +119,23 @@
 // True if the result was thrown during the evaluation.
 // Type: boolean
 @property (nonatomic, strong) NSNumber *wasThrown;
+
+// True if the property is owned for the object.
+// Type: boolean
+@property (nonatomic, strong) NSNumber *isOwn;
+
+@end
+
+
+// Object internal property descriptor. This property isn't normally visible in JavaScript code.
+@interface PDRuntimeInternalPropertyDescriptor : PDObject
+
+// Conventional property name.
+// Type: string
+@property (nonatomic, strong) NSString *name;
+
+// The value associated with the property.
+@property (nonatomic, strong) PDRuntimeRemoteObject *value;
 
 @end
 

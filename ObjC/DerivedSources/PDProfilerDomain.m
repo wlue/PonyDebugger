@@ -2,7 +2,7 @@
 //  PDProfilerDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -152,8 +152,8 @@
 
             responseCallback(params, error);
         }];
-    } else if ([methodName isEqualToString:@"getProfile"] && [self.delegate respondsToSelector:@selector(domain:getProfileWithType:uid:callback:)]) {
-        [self.delegate domain:self getProfileWithType:[params objectForKey:@"type"] uid:[params objectForKey:@"uid"] callback:^(PDProfilerProfile *profile, id error) {
+    } else if ([methodName isEqualToString:@"getCPUProfile"] && [self.delegate respondsToSelector:@selector(domain:getCPUProfileWithUid:callback:)]) {
+        [self.delegate domain:self getCPUProfileWithUid:[params objectForKey:@"uid"] callback:^(PDProfilerCPUProfile *profile, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (profile != nil) {
@@ -161,6 +161,10 @@
             }
 
             responseCallback(params, error);
+        }];
+    } else if ([methodName isEqualToString:@"getHeapSnapshot"] && [self.delegate respondsToSelector:@selector(domain:getHeapSnapshotWithUid:callback:)]) {
+        [self.delegate domain:self getHeapSnapshotWithUid:[params objectForKey:@"uid"] callback:^(id error) {
+            responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"removeProfile"] && [self.delegate respondsToSelector:@selector(domain:removeProfileWithType:uid:callback:)]) {
         [self.delegate domain:self removeProfileWithType:[params objectForKey:@"type"] uid:[params objectForKey:@"uid"] callback:^(id error) {

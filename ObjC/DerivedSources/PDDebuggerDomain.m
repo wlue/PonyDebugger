@@ -2,7 +2,7 @@
 //  PDDebuggerDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -39,9 +39,9 @@
 }
 
 // Fired when virtual machine parses script. This event is also fired for all known and uncollected scripts upon enabling debugger.
-- (void)scriptParsedWithScriptId:(NSString *)scriptId url:(NSString *)url startLine:(NSNumber *)startLine startColumn:(NSNumber *)startColumn endLine:(NSNumber *)endLine endColumn:(NSNumber *)endColumn isContentScript:(NSNumber *)isContentScript sourceMapURL:(NSString *)sourceMapURL;
+- (void)scriptParsedWithScriptId:(NSString *)scriptId url:(NSString *)url startLine:(NSNumber *)startLine startColumn:(NSNumber *)startColumn endLine:(NSNumber *)endLine endColumn:(NSNumber *)endColumn isContentScript:(NSNumber *)isContentScript sourceMapURL:(NSString *)sourceMapURL hasSourceURL:(NSNumber *)hasSourceURL;
 {
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:8];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:9];
 
     if (scriptId != nil) {
         [params setObject:[scriptId PD_JSONObject] forKey:@"scriptId"];
@@ -66,6 +66,9 @@
     }
     if (sourceMapURL != nil) {
         [params setObject:[sourceMapURL PD_JSONObject] forKey:@"sourceMapURL"];
+    }
+    if (hasSourceURL != nil) {
+        [params setObject:[hasSourceURL PD_JSONObject] forKey:@"hasSourceURL"];
     }
     
     [self.debuggingServer sendEventWithName:@"Debugger.scriptParsed" parameters:params];
@@ -294,8 +297,8 @@
         [self.delegate domain:self setPauseOnExceptionsWithState:[params objectForKey:@"state"] callback:^(id error) {
             responseCallback(nil, error);
         }];
-    } else if ([methodName isEqualToString:@"evaluateOnCallFrame"] && [self.delegate respondsToSelector:@selector(domain:evaluateOnCallFrameWithCallFrameId:expression:objectGroup:includeCommandLineAPI:doNotPauseOnExceptionsAndMuteConsole:returnByValue:callback:)]) {
-        [self.delegate domain:self evaluateOnCallFrameWithCallFrameId:[params objectForKey:@"callFrameId"] expression:[params objectForKey:@"expression"] objectGroup:[params objectForKey:@"objectGroup"] includeCommandLineAPI:[params objectForKey:@"includeCommandLineAPI"] doNotPauseOnExceptionsAndMuteConsole:[params objectForKey:@"doNotPauseOnExceptionsAndMuteConsole"] returnByValue:[params objectForKey:@"returnByValue"] callback:^(PDRuntimeRemoteObject *result, NSNumber *wasThrown, id error) {
+    } else if ([methodName isEqualToString:@"evaluateOnCallFrame"] && [self.delegate respondsToSelector:@selector(domain:evaluateOnCallFrameWithCallFrameId:expression:objectGroup:includeCommandLineAPI:doNotPauseOnExceptionsAndMuteConsole:returnByValue:generatePreview:callback:)]) {
+        [self.delegate domain:self evaluateOnCallFrameWithCallFrameId:[params objectForKey:@"callFrameId"] expression:[params objectForKey:@"expression"] objectGroup:[params objectForKey:@"objectGroup"] includeCommandLineAPI:[params objectForKey:@"includeCommandLineAPI"] doNotPauseOnExceptionsAndMuteConsole:[params objectForKey:@"doNotPauseOnExceptionsAndMuteConsole"] returnByValue:[params objectForKey:@"returnByValue"] generatePreview:[params objectForKey:@"generatePreview"] callback:^(PDRuntimeRemoteObject *result, NSNumber *wasThrown, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
 
             if (result != nil) {

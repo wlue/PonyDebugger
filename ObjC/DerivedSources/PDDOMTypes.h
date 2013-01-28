@@ -2,7 +2,7 @@
 //  PDDOMTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -55,6 +55,10 @@
 // Type: string
 @property (nonatomic, strong) NSString *documentURL;
 
+// Base URL that <code>Document</code> or <code>FrameOwner</code> node uses for URL completion.
+// Type: string
+@property (nonatomic, strong) NSString *baseURL;
+
 // <code>DocumentType</code>'s publicId.
 // Type: string
 @property (nonatomic, strong) NSString *publicId;
@@ -79,12 +83,18 @@
 // Type: string
 @property (nonatomic, strong) NSString *value;
 
+// Frame ID for frame owner elements.
+@property (nonatomic, strong) NSString *frameId;
+
 // Content document for frame owner elements.
 @property (nonatomic, strong) PDDOMNode *contentDocument;
 
 // Shadow root list for given element host.
 // Type: array
 @property (nonatomic, strong) NSArray *shadowRoots;
+
+// Content document fragment for template elements
+@property (nonatomic, strong) PDDOMNode *templateContent;
 
 @end
 
@@ -113,6 +123,10 @@
 
 // Handler code location.
 @property (nonatomic, strong) PDDebuggerLocation *location;
+
+// Source script URL.
+// Type: string
+@property (nonatomic, strong) NSString *sourceName;
 
 @end
 

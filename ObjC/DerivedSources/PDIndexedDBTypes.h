@@ -2,7 +2,7 @@
 //  PDIndexedDBTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -14,8 +14,8 @@
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
 
-@class PDRuntimeRemoteObject;
 @class PDIndexedDBKeyPath;
+@class PDRuntimeRemoteObject;
 
 
 // Security origin with database names.
@@ -39,9 +39,13 @@
 // Type: string
 @property (nonatomic, strong) NSString *name;
 
-// Database version.
+// Deprecated string database version.
 // Type: string
 @property (nonatomic, strong) NSString *version;
+
+// Integer database version.
+// Type: integer
+@property (nonatomic, strong) NSNumber *intVersion;
 
 // Object stores in this database.
 // Type: array
@@ -142,10 +146,10 @@
 @interface PDIndexedDBDataEntry : PDObject
 
 // Key.
-@property (nonatomic, strong) PDIndexedDBKey *key;
+@property (nonatomic, strong) PDRuntimeRemoteObject *key;
 
 // Primary key.
-@property (nonatomic, strong) PDIndexedDBKey *primaryKey;
+@property (nonatomic, strong) PDRuntimeRemoteObject *primaryKey;
 
 // Value.
 @property (nonatomic, strong) PDRuntimeRemoteObject *value;

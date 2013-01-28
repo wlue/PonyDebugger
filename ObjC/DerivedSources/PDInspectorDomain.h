@@ -2,7 +2,7 @@
 //  PDInspectorDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -24,6 +24,10 @@
 // Events
 - (void)evaluateForTestInFrontendWithTestCallId:(NSNumber *)testCallId script:(NSString *)script;
 - (void)inspectWithObject:(PDRuntimeRemoteObject *)object hints:(NSDictionary *)hints;
+
+// Fired when remote debugging connection is about to be terminated. Contains detach reason.
+// Param reason: The reason why connection has been terminated.
+- (void)detachedWithReason:(NSString *)reason;
 
 @end
 

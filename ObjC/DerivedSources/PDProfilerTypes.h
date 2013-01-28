@@ -2,7 +2,7 @@
 //  PDProfilerTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -37,13 +37,16 @@
 
 
 // Profile.
-@interface PDProfilerProfile : PDObject
+@interface PDProfilerCPUProfile : PDObject
 
 // Type: object
 @property (nonatomic, strong) NSDictionary *head;
 
 // Type: object
 @property (nonatomic, strong) NSDictionary *bottomUpHead;
+
+// Type: number
+@property (nonatomic, strong) NSNumber *idleTime;
 
 @end
 

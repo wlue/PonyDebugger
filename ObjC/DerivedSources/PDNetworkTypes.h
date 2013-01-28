@@ -2,7 +2,7 @@
 //  PDNetworkTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -92,7 +92,7 @@
 // HTTP response data.
 @interface PDNetworkResponse : PDObject
 
-// Response URL.
+// Response URL. This URL can be different from CachedResource.url in case of redirect.
 // Type: string
 @property (nonatomic, strong) NSString *url;
 
@@ -143,10 +143,6 @@
 // WebSocket request data.
 @interface PDNetworkWebSocketRequest : PDObject
 
-// HTTP response status text.
-// Type: string
-@property (nonatomic, strong) NSString *requestKey3;
-
 // HTTP response headers.
 @property (nonatomic, strong) NSDictionary *headers;
 
@@ -166,10 +162,6 @@
 
 // HTTP response headers.
 @property (nonatomic, strong) NSDictionary *headers;
-
-// Challenge response.
-// Type: string
-@property (nonatomic, strong) NSString *challengeResponse;
 
 @end
 
@@ -195,7 +187,7 @@
 // Information about the cached resource.
 @interface PDNetworkCachedResource : PDObject
 
-// Resource URL.
+// Resource URL. This is the url of the original network request.
 // Type: string
 @property (nonatomic, strong) NSString *url;
 

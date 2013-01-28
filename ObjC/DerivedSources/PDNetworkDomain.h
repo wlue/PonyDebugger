@@ -2,7 +2,7 @@
 //  PDNetworkDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -13,12 +13,12 @@
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
-@class PDNetworkWebSocketResponse;
-@class PDNetworkRequest;
 @class PDNetworkWebSocketRequest;
+@class PDNetworkRequest;
 @class PDNetworkResponse;
-@class PDNetworkInitiator;
 @class PDNetworkCachedResource;
+@class PDNetworkWebSocketResponse;
+@class PDNetworkInitiator;
 @class PDNetworkWebSocketFrame;
 
 @protocol PDNetworkCommandDelegate;
@@ -147,6 +147,10 @@
 // Callback Param body: Response body.
 // Callback Param base64Encoded: True, if content was sent as base64.
 - (void)domain:(PDNetworkDomain *)domain getResponseBodyWithRequestId:(NSString *)requestId callback:(void (^)(NSString *body, NSNumber *base64Encoded, id error))callback;
+
+// This method sends a new XMLHttpRequest which is identical to the original one. The following parameters should be identical: method, url, async, request body, extra headers, withCredentials attribute, user, password.
+// Param requestId: Identifier of XHR to replay.
+- (void)domain:(PDNetworkDomain *)domain replayXHRWithRequestId:(NSString *)requestId callback:(void (^)(id error))callback;
 
 // Tells whether clearing browser cache is supported.
 // Callback Param result: True if browser cache can be cleared.

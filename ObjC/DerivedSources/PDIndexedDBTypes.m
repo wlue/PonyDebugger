@@ -2,7 +2,7 @@
 //  PDIndexedDBTypes.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -42,6 +42,7 @@
         mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
                     @"name",@"name",
                     @"version",@"version",
+                    @"intVersion",@"intVersion",
                     @"objectStores",@"objectStores",
                     nil];
     });
@@ -51,6 +52,7 @@
 
 @dynamic name;
 @dynamic version;
+@dynamic intVersion;
 @dynamic objectStores;
  
 @end

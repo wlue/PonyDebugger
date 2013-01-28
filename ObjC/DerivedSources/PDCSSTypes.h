@@ -2,7 +2,7 @@
 //  PDCSSTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -15,6 +15,7 @@
 
 
 @class PDCSSSourceRange;
+@class PDCSSCSSRule;
 @class PDCSSCSSStyle;
 
 
@@ -45,15 +46,15 @@
 
 
 // CSS rule collection for a single pseudo style.
-@interface PDCSSPseudoIdRules : PDObject
+@interface PDCSSPseudoIdMatches : PDObject
 
 // Pseudo style identifier (see <code>enum PseudoId</code> in <code>RenderStyleConstants.h</code>).
 // Type: integer
 @property (nonatomic, strong) NSNumber *pseudoId;
 
-// CSS rules applicable to the pseudo style.
+// Matches of CSS rules applicable to the pseudo style.
 // Type: array
-@property (nonatomic, strong) NSArray *rules;
+@property (nonatomic, strong) NSArray *matches;
 
 @end
 
@@ -64,9 +65,39 @@
 // The ancestor node's inline style, if any, in the style inheritance chain.
 @property (nonatomic, strong) PDCSSCSSStyle *inlineStyle;
 
-// CSS rules matching the ancestor node in the style inheritance chain.
+// Matches of CSS rules matching the ancestor node in the style inheritance chain.
 // Type: array
 @property (nonatomic, strong) NSArray *matchedCSSRules;
+
+@end
+
+
+// Match data for a CSS rule.
+@interface PDCSSRuleMatch : PDObject
+
+// CSS rule in the match.
+@property (nonatomic, strong) PDCSSCSSRule *rule;
+
+// Matching selector indices in the rule's selectorList selectors (0-based).
+// Type: array
+@property (nonatomic, strong) NSArray *matchingSelectors;
+
+@end
+
+
+// Selector list data.
+@interface PDCSSSelectorList : PDObject
+
+// Selectors in the list.
+// Type: array
+@property (nonatomic, strong) NSArray *selectors;
+
+// Rule selector text.
+// Type: string
+@property (nonatomic, strong) NSString *text;
+
+// Rule selector range in the underlying resource (if available).
+@property (nonatomic, strong) PDCSSSourceRange *range;
 
 @end
 
@@ -134,9 +165,8 @@
 // The CSS rule identifier (absent for user agent stylesheet and user-specified stylesheet rules).
 @property (nonatomic, strong) PDCSSCSSRuleId *ruleId;
 
-// Rule selector.
-// Type: string
-@property (nonatomic, strong) NSString *selectorText;
+// Rule selector data.
+@property (nonatomic, strong) PDCSSSelectorList *selectorList;
 
 // Parent stylesheet resource URL (for regular rules).
 // Type: string
@@ -151,9 +181,6 @@
 
 // Associated style declaration.
 @property (nonatomic, strong) PDCSSCSSStyle *style;
-
-// The rule selector range in the underlying resource (if available).
-@property (nonatomic, strong) PDCSSSourceRange *selectorRange;
 
 // Media list array (for rules involving media queries). The array enumerates media queries starting with the innermost one, going outwards.
 // Type: array

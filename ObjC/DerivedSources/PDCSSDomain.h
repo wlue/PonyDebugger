@@ -2,7 +2,7 @@
 //  PDCSSDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -13,13 +13,13 @@
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
-@class PDCSSCSSRule;
+@class PDCSSSelectorProfile;
 @class PDCSSCSSStyleId;
+@class PDCSSCSSRule;
+@class PDCSSNamedFlow;
+@class PDCSSCSSRuleId;
 @class PDCSSCSSStyleSheetBody;
 @class PDCSSCSSStyle;
-@class PDCSSSelectorProfile;
-@class PDCSSCSSRuleId;
-@class PDCSSNamedFlow;
 
 @protocol PDCSSCommandDelegate;
 
@@ -37,14 +37,17 @@
 - (void)styleSheetChangedWithStyleSheetId:(NSString *)styleSheetId;
 
 // Fires when a Named Flow is created.
-// Param documentNodeId: The document node id.
-// Param namedFlow: Identifier of the new Named Flow.
-- (void)namedFlowCreatedWithDocumentNodeId:(NSNumber *)documentNodeId namedFlow:(NSString *)namedFlow;
+// Param namedFlow: The new Named Flow.
+- (void)namedFlowCreatedWithNamedFlow:(PDCSSNamedFlow *)namedFlow;
 
 // Fires when a Named Flow is removed: has no associated content nodes and regions.
 // Param documentNodeId: The document node id.
-// Param namedFlow: Identifier of the removed Named Flow.
-- (void)namedFlowRemovedWithDocumentNodeId:(NSNumber *)documentNodeId namedFlow:(NSString *)namedFlow;
+// Param flowName: Identifier of the removed Named Flow.
+- (void)namedFlowRemovedWithDocumentNodeId:(NSNumber *)documentNodeId flowName:(NSString *)flowName;
+
+// Fires when a Named Flow's layout may have changed.
+// Param namedFlow: The Named Flow whose layout may have changed.
+- (void)regionLayoutUpdatedWithNamedFlow:(PDCSSNamedFlow *)namedFlow;
 
 @end
 
@@ -61,7 +64,7 @@
 // Param includePseudo: Whether to include pseudo styles (default: true).
 // Param includeInherited: Whether to include inherited styles (default: true).
 // Callback Param matchedCSSRules: CSS rules matching this node, from all applicable stylesheets.
-// Callback Param pseudoElements: Pseudo style rules for this node.
+// Callback Param pseudoElements: Pseudo style matches for this node.
 // Callback Param inherited: A chain of inherited styles (from the immediate node parent up to the DOM tree root).
 - (void)domain:(PDCSSDomain *)domain getMatchedStylesForNodeWithNodeId:(NSNumber *)nodeId includePseudo:(NSNumber *)includePseudo includeInherited:(NSNumber *)includeInherited callback:(void (^)(NSArray *matchedCSSRules, NSArray *pseudoElements, NSArray *inherited, id error))callback;
 
@@ -120,12 +123,6 @@
 // Param documentNodeId: The document node id for which to get the Named Flow Collection.
 // Callback Param namedFlows: An array containing the Named Flows in the document.
 - (void)domain:(PDCSSDomain *)domain getNamedFlowCollectionWithDocumentNodeId:(NSNumber *)documentNodeId callback:(void (^)(NSArray *namedFlows, id error))callback;
-
-// Returns the Named Flow identified by the given name
-// Param documentNodeId: The document node id.
-// Param name: Named Flow identifier.
-// Callback Param namedFlow: A Named Flow.
-- (void)domain:(PDCSSDomain *)domain getFlowByNameWithDocumentNodeId:(NSNumber *)documentNodeId name:(NSString *)name callback:(void (^)(PDCSSNamedFlow *namedFlow, id error))callback;
 
 @end
 

@@ -2,7 +2,7 @@
 //  PDNetworkDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -342,6 +342,10 @@
             }
 
             responseCallback(params, error);
+        }];
+    } else if ([methodName isEqualToString:@"replayXHR"] && [self.delegate respondsToSelector:@selector(domain:replayXHRWithRequestId:callback:)]) {
+        [self.delegate domain:self replayXHRWithRequestId:[params objectForKey:@"requestId"] callback:^(id error) {
+            responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"canClearBrowserCache"] && [self.delegate respondsToSelector:@selector(domain:canClearBrowserCacheWithCallback:)]) {
         [self.delegate domain:self canClearBrowserCacheWithCallback:^(NSNumber *result, id error) {

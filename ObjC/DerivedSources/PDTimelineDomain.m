@@ -2,7 +2,7 @@
 //  PDTimelineDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -61,6 +61,16 @@
         }];
     } else if ([methodName isEqualToString:@"supportsFrameInstrumentation"] && [self.delegate respondsToSelector:@selector(domain:supportsFrameInstrumentationWithCallback:)]) {
         [self.delegate domain:self supportsFrameInstrumentationWithCallback:^(NSNumber *result, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+            if (result != nil) {
+                [params setObject:result forKey:@"result"];
+            }
+
+            responseCallback(params, error);
+        }];
+    } else if ([methodName isEqualToString:@"canMonitorMainThread"] && [self.delegate respondsToSelector:@selector(domain:canMonitorMainThreadWithCallback:)]) {
+        [self.delegate domain:self canMonitorMainThreadWithCallback:^(NSNumber *result, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (result != nil) {

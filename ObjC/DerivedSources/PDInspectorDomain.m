@@ -2,7 +2,7 @@
 //  PDInspectorDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -55,6 +55,18 @@
     }
     
     [self.debuggingServer sendEventWithName:@"Inspector.inspect" parameters:params];
+}
+
+// Fired when remote debugging connection is about to be terminated. Contains detach reason.
+- (void)detachedWithReason:(NSString *)reason;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+    if (reason != nil) {
+        [params setObject:[reason PD_JSONObject] forKey:@"reason"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"Inspector.detached" parameters:params];
 }
 
 

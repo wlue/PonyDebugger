@@ -2,7 +2,7 @@
 //  PDRuntimeTypes.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 1/28/13
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -106,6 +106,7 @@
                     @"configurable",@"configurable",
                     @"enumerable",@"enumerable",
                     @"wasThrown",@"wasThrown",
+                    @"isOwn",@"isOwn",
                     nil];
     });
 
@@ -120,6 +121,28 @@
 @dynamic configurable;
 @dynamic enumerable;
 @dynamic wasThrown;
+@dynamic isOwn;
+ 
+@end
+
+@implementation PDRuntimeInternalPropertyDescriptor
+
++ (NSDictionary *)keysToEncode;
+{
+    static NSDictionary *mappings = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                    @"name",@"name",
+                    @"value",@"value",
+                    nil];
+    });
+
+    return mappings;
+}
+
+@dynamic name;
+@dynamic value;
  
 @end
 
