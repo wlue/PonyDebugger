@@ -169,7 +169,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     callback([self rootNode], nil);
 }
 
-- (void)domain:(PDDOMDomain *)domain highlightNodeWithNodeId:(NSNumber *)nodeId highlightConfig:(PDDOMHighlightConfig *)highlightConfig callback:(void (^)(id))callback;
+- (void)domain:(PDDOMDomain *)domain highlightNodeWithHighlightConfig:(PDDOMHighlightConfig *)highlightConfig nodeId:(NSNumber *)nodeId objectId:(NSString *)objectId callback:(void (^)(id error))callback;
 {
     id objectForNodeId = [self.objectsForNodeIds objectForKey:nodeId];
     if ([objectForNodeId isKindOfClass:[UIView class]]) {

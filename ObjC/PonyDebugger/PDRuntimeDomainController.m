@@ -86,19 +86,19 @@
 
 #pragma mark - PDRuntimeCommandDelegate
 
-- (void)domain:(PDRuntimeDomain *)domain getPropertiesWithObjectId:(NSString *)objectId ownProperties:(NSNumber *)ownProperties callback:(void (^)(NSArray *result, id error))callback;
+- (void)domain:(PDRuntimeDomain *)domain getPropertiesWithObjectId:(NSString *)objectId ownProperties:(NSNumber *)ownProperties callback:(void (^)(NSArray *result, NSArray *internalProperties, id error))callback;
 {
     NSObject *object = [self.objectReferences objectForKey:objectId];
     if (!object) {
         NSString *errorMessage = [NSString stringWithFormat:@"Object with objectID '%@' does not exist.", objectId];
         NSError *error = [NSError errorWithDomain:PDDebuggerErrorDomain code:100 userInfo:[NSDictionary dictionaryWithObject:errorMessage forKey:NSLocalizedDescriptionKey]];
         
-        callback(nil, error);
+        callback(nil, nil, error);
         return;
     }
     
     NSArray *properties = [object PD_propertyDescriptors];
-    callback(properties, nil);
+    callback(properties, nil, nil);
 }
 
 - (void)domain:(PDRuntimeDomain *)domain releaseObjectWithObjectId:(NSString *)objectId callback:(void (^)(id error))callback;
