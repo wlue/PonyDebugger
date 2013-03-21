@@ -30,7 +30,7 @@
 @class SRWebSocket;
 @class PDDomainController;
 
-extern void _PDLogObjectsImpl(NSArray *arguments);
+extern void _PDLogObjectsImpl(NSString *severity, NSArray *arguments);
 
 
 #pragma mark - Public Interface
